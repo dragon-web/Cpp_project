@@ -116,12 +116,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="DocFastSearchTool.cpp" />
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="Sysutil.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Sysutil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
