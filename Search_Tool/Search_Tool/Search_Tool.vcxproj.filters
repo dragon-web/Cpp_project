@@ -24,12 +24,15 @@
     <ClInclude Include="Sysutil.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\sqlite\数据库\sqlite_源码\sqlite-amalgamation-3280000\sqlite3.h">
+    <ClInclude Include="sqlite3.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sysutil.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

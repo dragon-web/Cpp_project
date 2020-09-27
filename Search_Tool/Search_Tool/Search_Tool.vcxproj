@@ -115,12 +115,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\sqlite\数据库\sqlite_源码\sqlite-amalgamation-3280000\sqlite3.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="DocFastSearchTool.cpp" />
+    <ClInclude Include="sqlite3.h" />
     <ClInclude Include="Sysutil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="Sysutil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
