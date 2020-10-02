@@ -21,7 +21,15 @@ class DataManager
 {
 private:
 	SqliteManager m_dbmgr;
-
+public:
+	DataManager();
+	~DataManager();
+public:
+	void InsertDoc(const string &path, string &doc);
+	void GetDocs(const string &path, set<string> &docs);
+	void DeleteDoc(const string& path, string doc);
+public:
+	void InitSqlite();
 
 };
 

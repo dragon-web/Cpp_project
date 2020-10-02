@@ -11,7 +11,7 @@
 #endif
 
 
-//void DirectionList(const string& path, vector<string>& subfile, vector<string> & subdir);
+void DirectionList(const string& path, vector<string>& subfile, vector<string> & subdir);
 
 static std::string GetFileName(const std::string& path)
 {

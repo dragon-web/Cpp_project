@@ -1,2 +1,8 @@
-﻿  Sysutil.cpp
+﻿  DataManager.cpp
+c:\users\飞龙\desktop\cpp_project\search_tool\search_tool\datamanager.cpp(113): warning C4474: sprintf: 格式字符串中传递的参数太多
+  c:\users\飞龙\desktop\cpp_project\search_tool\search_tool\datamanager.cpp(113): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
+  ScanManager.cpp
+  Sysutil.cpp
+  正在生成代码...
+sqlite3.lib(sqlite3.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“sqlite3.lib(sqlite3.obj)”或在“C:\Users\飞龙\Desktop\Cpp_project\Search_Tool\Debug\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
   Search_Tool.vcxproj -> C:\Users\飞龙\Desktop\Cpp_project\Search_Tool\Debug\Search_Tool.exe
