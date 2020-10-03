@@ -115,20 +115,21 @@ void Test_Search()
 	const string &path = "C:\\Users\\飞龙\\Desktop\\Test_Pro";
 	ScanManager sm;
 	sm.ScanDirectory(path);
-	//创建搜索实例
 
+	//创建搜索实例
 	DataManager dm;
+	string key;
 	vector<pair<string, string>> doc_path;
 	while (1)
 	{
-		string key;
 		cout << "Print:" << endl;
 		cin >> key;
+		doc_path.clear();
 		dm.Search(key,doc_path);
-		printf("%s    %s\n", "名称","路径");
+		printf("%-15s%-15s\n", "名称","路径");
 		for (const auto &e : doc_path)
 		{
-			printf("%s    %s\n", e.first.c_str(), e.second.c_str());
+			printf("%-10s%-50s\n", e.first.c_str(), e.second.c_str());
 		}
 	}
 }

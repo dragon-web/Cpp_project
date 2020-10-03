@@ -1,7 +1,4 @@
 ﻿  DataManager.cpp
-c:\users\飞龙\desktop\cpp_project\search_tool\search_tool\datamanager.cpp(123): warning C4474: sprintf: 格式字符串中传递的参数太多
-  c:\users\飞龙\desktop\cpp_project\search_tool\search_tool\datamanager.cpp(123): note: 占位符和其参数预计 1 可变参数，但提供的却是 2 参数
-  ScanManager.cpp
   Sysutil.cpp
   正在生成代码...
   Search_Tool.vcxproj -> C:\Users\飞龙\Desktop\Cpp_project\Search_Tool\Debug\Search_Tool.exe

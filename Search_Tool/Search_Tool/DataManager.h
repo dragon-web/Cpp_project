@@ -25,12 +25,24 @@ public:
 	DataManager();
 	~DataManager();
 public:
-	void InsertDoc(const string &path, string doc);
+	void InsertDoc(const string &path, const string &doc);
 	void GetDocs(const string &path, multiset<string> &docs);
-	void DeleteDoc(const string& path, string doc);
+	void DeleteDoc(const string& path,  const string &doc);
 public:
 	void InitSqlite();
 public:
 	void Search(const string &key, vector<pair<string, string>> &doc_path);
 };
 
+class AutoGetResultTable
+{
+public:
+	AutoGetResultTable(SqliteManager *db, const string &sql, int &col, int &row,char **& ppRet);
+	~AutoGetResultTable();
+public:
+	AutoGetResultTable(const AutoGetResultTable &) = delete;
+	AutoGetResultTable& operator = (const AutoGetResultTable &) = delete;
+private:
+	SqliteManager* m_db;
+	char **m_ppRet;
+};

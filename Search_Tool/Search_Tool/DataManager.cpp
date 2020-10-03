@@ -77,7 +77,7 @@ DataManager::DataManager()
 	m_dbmgr.Open(DOC_DB);
 	InitSqlite();
 }
-void DataManager::DeleteDoc(const string& path, string doc)
+void DataManager::DeleteDoc(const string& path,const string &doc)
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
 	sprintf(sql, "delete from %s where doc_name = '%s' and doc_path = '%s'", DOC_TABLE, doc.c_str(), path.c_str());
@@ -100,6 +100,8 @@ void DataManager::GetDocs(const string &path, multiset<string> &docs)
 	int row = 0, col = 0;
 	char** ppRet = 0;
 	m_dbmgr.GetResultTable(sql,row,col,ppRet);
+	//AutoGetResultTable(&m_dbmgr,sql, row, col, ppRet);
+
 	for (int i = 1; i <= row; ++i)
 	{
 		docs.insert(ppRet[i]);
@@ -107,7 +109,7 @@ void DataManager::GetDocs(const string &path, multiset<string> &docs)
 	//释放结果表
 	sqlite3_free_table(ppRet);
 }
-void DataManager::InsertDoc(const string &path, string doc)
+void DataManager::InsertDoc(const string &path, const string &doc)
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
 	sprintf(sql,"insert into %s values(null,'%s','%s')", DOC_TABLE,doc.c_str(), path.c_str());
@@ -120,24 +122,38 @@ DataManager::~DataManager()
 void DataManager::InitSqlite()
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
-	sprintf(sql,"create table if not exists %s(id integer primary key autoincrement, doc_name text, doc_path text)", DOC_TABLE, DOC_DB);
+	sprintf(sql,"create table if not exists %s(id integer primary key autoincrement, doc_name text, doc_path text)", DOC_TABLE);
 	m_dbmgr.ExecuteSql(sql);
 }
 
 void DataManager::Search(const string &key, vector<pair<string, string>> &doc_path)
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
-	sprintf(sql, "select doc_name,doc_path from %s where doc_name like '%%%s%%",DOC_TABLE,key.c_str());
+	sprintf(sql, "select doc_name,doc_path from %s where doc_name like '%%%s%%'",DOC_TABLE,key.c_str());
 	int row = 0;
 	int col = 0;
 	char **ppRet = nullptr;
-	m_dbmgr.GetResultTable(sql, row, col, ppRet);
+	//m_dbmgr.GetResultTable(sql, row, col, ppRet);
+	AutoGetResultTable at(&m_dbmgr,sql,row,col,ppRet);  //这里的at是对象
 	for (int i = 1; i <= row; ++i)
 	{
 		doc_path.push_back(make_pair(ppRet[i*col], ppRet[i*col + 1]));
 	}
+
 	//释放结果表
-	sqlite3_free_table(ppRet);
+	//sqlite3_free_table(ppRet);
 }
 
+//RAII机制：资源获取就是初始化
 
+AutoGetResultTable::AutoGetResultTable(SqliteManager *db, const string &sql, 
+	int &col, int &row, char **& ppRet) : m_db(db)
+{
+	m_db->GetResultTable(sql, row, col, ppRet);
+	m_ppRet = ppRet;
+}
+AutoGetResultTable::~AutoGetResultTable()
+{
+	if (m_ppRet)
+		sqlite3_free_table(m_ppRet);
+}
