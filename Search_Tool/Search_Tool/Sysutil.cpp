@@ -63,13 +63,14 @@ void Test_MapSet()
 	}
 }
 
-
+/*
 void Test_Scan()
 {
 	const string &path = "C:\\Users\\飞龙\\Desktop\\Test_Pro";
 	ScanManager sm;
 	sm.ScanDirectory(path); 
 }
+*/
 
 
 void DirectionList(const string &path, vector<string> &subfile, vector<string> &subdir)
@@ -113,26 +114,67 @@ void Test_Search()
 {
 	//扫描搜索实例
 	const string &path = "C:\\Users\\飞龙\\Desktop\\Test_Pro";
-	ScanManager sm;
-	sm.ScanDirectory(path);
+	ScanManager::CreateInstance(path).ScanDirectory(path);
+	//sm.ScanDirectory(path);
 
 	//创建搜索实例
-	DataManager dm;
+	DataManager &dm = DataManager::GetInstance();
 	string key;
 	vector<pair<string, string>> doc_path;
 	while (1)
 	{
 		cout << "Print:" << endl;
 		cin >> key;
-		doc_path.clear();
 		dm.Search(key,doc_path);
 		printf("%-15s%-15s\n", "名称","路径");
 		for (const auto &e : doc_path)
 		{
 			printf("%-10s%-50s\n", e.first.c_str(), e.second.c_str());
 		}
+		doc_path.clear();
 	}
 }
+/*
+void thread_fun() 
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		cout << "This is a Child Thread" << endl;
+	}
+}
+
+void Test_thread()
+{
+	thread th(thread_fun);
+	th.detach();//主线程和子线程分离
+	for (int i = 0; i < 10; ++i)
+	{
+		cout << "This is a Main Thread" << endl;
+	}
+	th.join();
+}
+
+class Test
+{
+public:
+	void fun()
+	{
+		cout << "This is Test::fun()" << endl;
+	}
+};
+
+void Test_thread()
+{
+	Test t;
+	thread th(&Test::fun,&t);
+	th.detach();//主线程和子线程分离
+	for (int i = 0; i < 10; ++i)
+	{
+		cout << "This is a Main Thread" << endl;
+	}
+	//th.join();
+}
+*/
 
 
 int main()
@@ -142,6 +184,8 @@ int main()
 	//Test_Log();
 	//Test_MapSet();
 	Test_Search();
+	//Test_thread();
+
 	system("pause");
 	return 0;
 }

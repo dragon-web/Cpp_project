@@ -7,7 +7,8 @@ class SqliteManager
 {
 private:
 	sqlite3 *m_db;
-public:
+
+public:	
 	SqliteManager();
 	~SqliteManager();
 public:
@@ -15,14 +16,16 @@ public:
 	void Close();
 	void ExecuteSql(const string &sql);
 	void GetResultTable(const string &sql,int& row,int& col,char** &ppRet);
+
 };
 
 class DataManager
 {
 private:
 	SqliteManager m_dbmgr;
-public:
 	DataManager();
+public:
+	
 	~DataManager();
 public:
 	void InsertDoc(const string &path, const string &doc);
@@ -32,6 +35,7 @@ public:
 	void InitSqlite();
 public:
 	void Search(const string &key, vector<pair<string, string>> &doc_path);
+	static DataManager& GetInstance(); //µÃµ½ÊµÀý
 };
 
 class AutoGetResultTable

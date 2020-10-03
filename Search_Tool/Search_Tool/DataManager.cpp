@@ -2,12 +2,19 @@
 #include"Sysutil.h"
 
 SqliteManager::SqliteManager() : m_db(NULL)
-{
-}
+{}
 SqliteManager::~SqliteManager()
 {
 
 }
+
+DataManager &DataManager::GetInstance()
+{
+	static DataManager inst;
+	return inst;
+}
+
+
 void  SqliteManager::Open(const string &path)
 {
 	char *zErrMsg = 0;

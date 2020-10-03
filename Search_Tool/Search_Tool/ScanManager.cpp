@@ -1,7 +1,27 @@
 #include"ScanManager.h"
 #include"Sysutil.h"
+#include"DataManager.h"
 
 //set 底层会对  关键码  进行排序  将底层数据加入到集合里面，这样就会对集合进行排序
+ScanManager::ScanManager()
+{}
+
+ScanManager& ScanManager::CreateInstance(const string &path)
+{
+	static ScanManager inst;
+	thread scan_thread(&StartScan,&inst,path);
+	scan_thread.detach();
+	return inst;
+}
+
+void ScanManager::StartScan(const string &path)
+{
+	while (1)
+	{
+		this_thread::sleep_for(chrono::seconds(3)); //每隔3秒扫描一次
+		ScanDirectory(path);
+	}
+}
 
 void ScanManager::ScanDirectory(const string &path)
 {
@@ -14,6 +34,8 @@ void ScanManager::ScanDirectory(const string &path)
 	set<string> local_set;
 	local_set.insert(local_files.begin(), local_files.end());
 	local_set.insert(local_dirs.begin(), local_dirs.end());  
+
+	DataManager &m_db = DataManager::GetInstance();
 
 	multiset<string> db_set;
 	//需要从数据库拿到所有数据
