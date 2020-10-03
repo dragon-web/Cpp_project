@@ -25,11 +25,12 @@ public:
 	DataManager();
 	~DataManager();
 public:
-	void InsertDoc(const string &path, string &doc);
-	void GetDocs(const string &path, set<string> &docs);
+	void InsertDoc(const string &path, string doc);
+	void GetDocs(const string &path, multiset<string> &docs);
 	void DeleteDoc(const string& path, string doc);
 public:
 	void InitSqlite();
-
+public:
+	void Search(const string &key, vector<pair<string, string>> &doc_path);
 };
 

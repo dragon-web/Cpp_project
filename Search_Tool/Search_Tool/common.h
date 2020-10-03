@@ -1,6 +1,6 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS 
-#define SQ_BUFFER_SIZE 256
+#define SQ_BUFFER_SIZE 256    //sql语句的缓冲区大小
 #include<iostream>
 #include<string>
 #include<io.h>

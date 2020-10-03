@@ -59,7 +59,7 @@ void SqliteManager::GetResultTable(const string &sql, int &row, int &col, char**
 	if (rc != SQLITE_OK)
 	{
 		ERROR_LOG("Get Result Table failed : %s\n", zErrMsg);
-		exit(0);
+		//exit(0);
 	}
 	else
 	{
@@ -69,7 +69,7 @@ void SqliteManager::GetResultTable(const string &sql, int &row, int &col, char**
 
 
 #define DOC_DB "doc.db"
-#define DOC_TABLE "doc_tb"
+#define DOC_TABLE "doc_tb"  
 
 
 DataManager::DataManager()
@@ -79,13 +79,24 @@ DataManager::DataManager()
 }
 void DataManager::DeleteDoc(const string& path, string doc)
 {
+	char sql[SQ_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "delete from %s where doc_name = '%s' and doc_path = '%s'", DOC_TABLE, doc.c_str(), path.c_str());
+	m_dbmgr.ExecuteSql(sql);
 
+	//如果删除的是目录文件，则删除对应目录下的子文件
+	//采取模糊匹配
+	string doc_path = path;
+	doc_path += "\\";
+	doc_path += doc;
+	memset(sql, 0, SQ_BUFFER_SIZE);
+	sprintf(sql, "delete from %s where doc_path like '%s%%'",DOC_TABLE,doc_path.c_str());
+	m_dbmgr.ExecuteSql(sql);
 }
 
-void DataManager::GetDocs(const string &path, set<string> &docs)
+void DataManager::GetDocs(const string &path, multiset<string> &docs)
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
-	sprintf(sql, "select doc_name from %s where doc_path = '%s'",DOC_TABLE,path.c_str());
+	sprintf(sql, "select doc_name from %s where doc_path = '%s'", DOC_TABLE,path.c_str());
 	int row = 0, col = 0;
 	char** ppRet = 0;
 	m_dbmgr.GetResultTable(sql,row,col,ppRet);
@@ -93,11 +104,10 @@ void DataManager::GetDocs(const string &path, set<string> &docs)
 	{
 		docs.insert(ppRet[i]);
 	}
-
 	//释放结果表
 	sqlite3_free_table(ppRet);
 }
-void DataManager::InsertDoc(const string &path, string &doc)
+void DataManager::InsertDoc(const string &path, string doc)
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
 	sprintf(sql,"insert into %s values(null,'%s','%s')", DOC_TABLE,doc.c_str(), path.c_str());
@@ -110,6 +120,24 @@ DataManager::~DataManager()
 void DataManager::InitSqlite()
 {
 	char sql[SQ_BUFFER_SIZE] = { 0 };
-	sprintf(sql, "create table if not exists %s(id integer primary key autoincrement, doc_name text, doc_path text)", DOC_TABLE, DOC_DB);
+	sprintf(sql,"create table if not exists %s(id integer primary key autoincrement, doc_name text, doc_path text)", DOC_TABLE, DOC_DB);
 	m_dbmgr.ExecuteSql(sql);
 }
+
+void DataManager::Search(const string &key, vector<pair<string, string>> &doc_path)
+{
+	char sql[SQ_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "select doc_name,doc_path from %s where doc_name like '%%%s%%",DOC_TABLE,key.c_str());
+	int row = 0;
+	int col = 0;
+	char **ppRet = nullptr;
+	m_dbmgr.GetResultTable(sql, row, col, ppRet);
+	for (int i = 1; i <= row; ++i)
+	{
+		doc_path.push_back(make_pair(ppRet[i*col], ppRet[i*col + 1]));
+	}
+	//释放结果表
+	sqlite3_free_table(ppRet);
+}
+
+

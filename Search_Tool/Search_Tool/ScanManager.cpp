@@ -15,7 +15,7 @@ void ScanManager::ScanDirectory(const string &path)
 	local_set.insert(local_files.begin(), local_files.end());
 	local_set.insert(local_dirs.begin(), local_dirs.end());  
 
-	set<string> db_set;
+	multiset<string> db_set;
 	//需要从数据库拿到所有数据
 	m_db.GetDocs(path,db_set);
 
@@ -26,31 +26,43 @@ void ScanManager::ScanDirectory(const string &path)
 		if (*local_it < *db_it)
 		{
 			//本地文件存在，数据库文件不存在,数据库新增文件
-			
+			m_db.InsertDoc(path, *local_it);
+			local_it++;
 
 		}
 		else if(*local_it > *db_it)
 		{
 			//本地文件不存在，数据库文件存在，数据库删除文件
-
+			m_db.DeleteDoc(path, *db_it);
+			db_it++;
 		}
 		else
 		{
 			//本地和数据库文件都存在，数据库文件不需要改变
-		}
-		while (local_it != local_set.end())
-		{
-			//本地文件存在，数据库文件不存在，数据库插入新文件
-			m_db.InsertDoc(path, *local_it);
 			local_it++;
+			db_it++;
 		}
-		while (db_it != db_set.end())
-		{
-			//数据库多有文件，将数据库多出部分进行删除
-		}
-		//递归遍历子目录
-
 	}
-
-
+	while (local_it != local_set.end())
+	{
+		//本地文件存在，数据库文件不存在，数据库插入新文件
+		m_db.InsertDoc(path, *local_it);
+		local_it++;
+	}
+	while (db_it != db_set.end())
+	{
+		//数据库多有文件，将数据库多出部分进行删除
+		m_db.DeleteDoc(path, *db_it);
+		db_it++;
+	}
+	//递归遍历子目录
+	for (const auto &dir : local_dirs)
+	{
+		string dir_path = path;  //一开始目录
+		dir_path += "\\";  
+		dir_path += dir;
+		ScanDirectory(dir_path);
+	}
 }
+
+

@@ -66,10 +66,9 @@ void Test_MapSet()
 
 void Test_Scan()
 {
-	const string &path = "C:\\Users\\·ÉÁú\\Desktop\\review_cpp\\Problem2";
+	const string &path = "C:\\Users\\·ÉÁú\\Desktop\\Test_Pro";
 	ScanManager sm;
-	sm.ScanDirectory(path);
-
+	sm.ScanDirectory(path); 
 }
 
 
@@ -110,13 +109,38 @@ void DirectionList(const string &path, vector<string> &subfile, vector<string> &
 }
 
 
+void Test_Search()
+{
+	//É¨ÃèËÑË÷ÊµÀı
+	const string &path = "C:\\Users\\·ÉÁú\\Desktop\\Test_Pro";
+	ScanManager sm;
+	sm.ScanDirectory(path);
+	//´´½¨ËÑË÷ÊµÀı
+
+	DataManager dm;
+	vector<pair<string, string>> doc_path;
+	while (1)
+	{
+		string key;
+		cout << "Print:" << endl;
+		cin >> key;
+		dm.Search(key,doc_path);
+		printf("%s    %s\n", "Ãû³Æ","Â·¾¶");
+		for (const auto &e : doc_path)
+		{
+			printf("%s    %s\n", e.first.c_str(), e.second.c_str());
+		}
+	}
+}
+
+
 int main()
 {
 	//Test_Sqlite();
 	//Test_Manager();
 	//Test_Log();
 	//Test_MapSet();
-	Test_Scan();
+	Test_Search();
 	system("pause");
 	return 0;
 }
