@@ -18,9 +18,6 @@
     <ClInclude Include="common.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DocFastSearchTool.cpp">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="Sysutil.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -33,6 +30,12 @@
     <ClInclude Include="ScanManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Logal_Func.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Sysframe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sysutil.cpp">
@@ -42,6 +45,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ScanManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Logal_Func.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sysframe.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,8 @@
 #include"sqlite3.h"
 #include"DataManager.h"
 #include"ScanManager.h"
+#include"Logal_Func.h"
+#include"Sysframe.h"
 
 //静态库形式或者是源码形式调用，在程序里面使用数据库
 
@@ -175,7 +177,15 @@ void Test_thread()
 	//th.join();
 }
 */
-
+/*
+void Test_Frame()
+{
+	/*system("mode con cols = 60 lines = 10");
+	SetCurPros(0,(60-strlen("Hello Bit.")) / 2);
+	printf("Hello Bit.\n");
+	
+	DrawFrame(title);
+}
 
 int main()
 {
@@ -183,9 +193,57 @@ int main()
 	//Test_Manager();
 	//Test_Log();
 	//Test_MapSet();
-	Test_Search();
+	//Test_Search();
 	//Test_thread();
+	Test_Frame();
+	system("pause");
+	return 0;
+}*/
+
+const char* Title = "文档快速搜索工具";
+
+int main()
+{
+	const string &path = "C:\\Users\\飞龙\\Desktop\\Test_Pro";
+	ScanManager::CreateInstance(path).ScanDirectory(path);
+	//sm.ScanDirectory(path);
+
+	//创建搜索实例
+	DataManager &dm = DataManager::GetInstance();
+	string key;
+	vector<pair<string, string>> doc_path;
+	while (1)
+	{
+		DrawFrame(Title);
+		DrawMenu();
+		cin >> key;
+		if (key == "exit")
+			break;
+		dm.Search(key, doc_path);
+		int init_row = 5;
+		int count = 0;
+		string prefix, highlight, suffix;
+		for (const auto& e : doc_path)//打印搜到的内容
+		{
+			string doc_name = e.first;
+			string doc_path = e.second;
+			DataManager::SplitHighlight(doc_name, key, prefix, highlight, suffix);//高亮处理
+			SetCurPos(2, init_row + count++);//每次光标从init_row行开始，再加上count++；
+			//打印文件名
+			cout << prefix;
+			ColourPrintf(highlight.c_str());
+			cout << suffix;
+			//打印路径
+			SetCurPos(33, init_row + count - 1);
+			printf("%-50s", doc_path.c_str());
+		}
+		SystemEnd();//设置光标到末尾--（针对的是控制台每次打印都有“请按任意键继续...”，将其设置到界面最末尾）
+		system("pause");
+	}
 
 	system("pause");
 	return 0;
 }
+
+
+

@@ -3,11 +3,11 @@
 #include"common.h"
 
 #ifndef __TRACE__
-#define __TRACE__
+//#define __TRACE__
 #endif
 
 #ifndef __DEBUG__
-#define __DEBUG__
+//#define __DEBUG__
 #endif
 
 

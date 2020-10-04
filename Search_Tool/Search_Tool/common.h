@@ -12,7 +12,9 @@
 #include<string>
 #include<thread>
 #include<chrono>
-
+#include<windows.h>
+#include<algorithm>
+#define MAX_TITLE_SIZE 128
 
 using namespace std;
 

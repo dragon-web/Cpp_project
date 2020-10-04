@@ -117,14 +117,17 @@
   <ItemGroup>
     <ClInclude Include="common.h" />
     <ClInclude Include="DataManager.h" />
-    <ClInclude Include="DocFastSearchTool.cpp" />
+    <ClInclude Include="Logal_Func.h" />
     <ClInclude Include="ScanManager.h" />
     <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="Sysframe.h" />
     <ClInclude Include="Sysutil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Logal_Func.cpp" />
     <ClCompile Include="ScanManager.cpp" />
+    <ClCompile Include="Sysframe.cpp" />
     <ClCompile Include="Sysutil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

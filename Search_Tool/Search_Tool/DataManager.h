@@ -16,7 +16,6 @@ public:
 	void Close();
 	void ExecuteSql(const string &sql);
 	void GetResultTable(const string &sql,int& row,int& col,char** &ppRet);
-
 };
 
 class DataManager
@@ -36,6 +35,8 @@ public:
 public:
 	void Search(const string &key, vector<pair<string, string>> &doc_path);
 	static DataManager& GetInstance(); //得到实例
+	static void SplitHighlight(const string &str, const string &key,
+		string &prefix, string &highlight, string &suffix);//分割成3部分
 };
 
 class AutoGetResultTable
@@ -50,3 +51,5 @@ private:
 	SqliteManager* m_db;
 	char **m_ppRet;
 };
+
+void ColourPrintf(const char* str);
